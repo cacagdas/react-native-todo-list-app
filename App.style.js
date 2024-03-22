@@ -6,16 +6,17 @@ export const s = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F9F9F9",
   },
+  cardItem: {
+    marginBottom: 16,
+  },
   header: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
   },
   body: {
     flex: 5,
-    backgroundColor: "#F9F9F9",
   },
   footer: {
     height: 70,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "white",
   },
 });
