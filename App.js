@@ -6,42 +6,53 @@ import { CardTodo } from "./components/todocard/CardTodo";
 import { useState } from "react";
 
 export default function App() {
-  const [todoList, setTodoList] = useState([
-    { id: 1, title: "Task #1", isCompleted: true },
-    { id: 2, title: "Task #2", isCompleted: false },
-    { id: 3, title: "Task #3", isCompleted: false },
-    { id: 4, title: "Task #1", isCompleted: true },
-    { id: 5, title: "Task #2", isCompleted: false },
-    { id: 6, title: "Task #3", isCompleted: false },
-    { id: 7, title: "Task #1", isCompleted: true },
-    { id: 8, title: "Task #2", isCompleted: false },
-    { id: 9, title: "Task #3", isCompleted: false },
-  ]);
+	const [todoList, setTodoList] = useState([
+		{ id: 1, title: "Task #1", isCompleted: true },
+		{ id: 2, title: "Task #2", isCompleted: false },
+		{ id: 3, title: "Task #3", isCompleted: false },
+		{ id: 4, title: "Task #4", isCompleted: true },
+		{ id: 5, title: "Task #5", isCompleted: false },
+		{ id: 6, title: "Task #6", isCompleted: false },
+		{ id: 7, title: "Task #7", isCompleted: true },
+		{ id: 8, title: "Task #8", isCompleted: false },
+		{ id: 9, title: "Task #9", isCompleted: false },
+	]);
 
-  function renderTodoList() {
-    return todoList.map((todo) => (
-      <View key={todo.id} style={s.cardItem}>
-        <CardTodo todo={todo} />
-      </View>
-    ));
-  }
+	function renderTodoList() {
+		return todoList.map((todo) => (
+			<View key={todo.id} style={s.cardItem}>
+				<CardTodo onPress={updateTodo} todo={todo} />
+			</View>
+		));
+	}
 
-  return (
-    <>
-      <SafeAreaProvider>
-        <SafeAreaView style={s.app}>
-          <View style={s.header}>
-            <Header />
-          </View>
-          <View style={s.body}>
-            <ScrollView>{renderTodoList()}</ScrollView>
-          </View>
-        </SafeAreaView>
-      </SafeAreaProvider>
+	function updateTodo(todo) {
+		const updatedTodo = {
+			...todo,
+			isCompleted: !todo.isCompleted,
+		};
+		const updatedTodoList = [...todoList];
+		const index = updatedTodoList.findIndex((t) => t.id == updatedTodo.id);
+		updatedTodoList[index] = updatedTodo;
+		setTodoList(updatedTodoList);
+	}
 
-      <View style={s.footer}>
-        <Text>Footer</Text>
-      </View>
-    </>
-  );
+	return (
+		<>
+			<SafeAreaProvider>
+				<SafeAreaView style={s.app}>
+					<View style={s.header}>
+						<Header />
+					</View>
+					<View style={s.body}>
+						<ScrollView>{renderTodoList()}</ScrollView>
+					</View>
+				</SafeAreaView>
+			</SafeAreaProvider>
+
+			<View style={s.footer}>
+				<Text>Footer</Text>
+			</View>
+		</>
+	);
 }
