@@ -4,6 +4,7 @@ import { s } from "./App.style";
 import { Header } from "./components/header/Header";
 import { CardTodo } from "./components/todocard/CardTodo";
 import { useState } from "react";
+import { BottomNavBar } from "./components/bottomnavbar/BottomNavBar";
 
 export default function App() {
 	const [todoList, setTodoList] = useState([
@@ -18,8 +19,21 @@ export default function App() {
 		{ id: 9, title: "Task #9", isCompleted: false },
 	]);
 
+	const [selectedTabName, setSelectedTabName] = useState("all");
+
+	function getFilteredList() {
+		switch (selectedTabName) {
+			case "all":
+				return todoList;
+			case "inProgress":
+				return todoList.filter((todo) => !todo.isCompleted);
+			case "done":
+				return todoList.filter((todo) => todo.isCompleted);
+		}
+	}
+
 	function renderTodoList() {
-		return todoList.map((todo) => (
+		return getFilteredList().map((todo) => (
 			<View key={todo.id} style={s.cardItem}>
 				<CardTodo onPress={updateTodo} todo={todo} />
 			</View>
@@ -51,7 +65,11 @@ export default function App() {
 			</SafeAreaProvider>
 
 			<View style={s.footer}>
-				<Text>Footer</Text>
+				<BottomNavBar
+					todoList={todoList}
+					onPress={setSelectedTabName}
+					selectedTabName={selectedTabName}
+				/>
 			</View>
 		</>
 	);
